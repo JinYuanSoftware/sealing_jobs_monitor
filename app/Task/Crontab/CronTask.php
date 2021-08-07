@@ -55,7 +55,7 @@ class CronTask
     }
 
     /**
-     * @Cron("/3 * * * * *")
+     * @Cron("3 * * * * *")
      * 监控服务器
      */
     public function monitorTask(): void
