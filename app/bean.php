@@ -42,7 +42,7 @@ return [
         ],
         'process'  => [
             // 'monitor' => bean(\App\Process\MonitorProcess::class)
-            // 'crontab' => bean(CrontabProcess::class)
+            'crontab' => bean(CrontabProcess::class)
         ],
         'on'       => [
             // SwooleEvent::TASK   => bean(SyncTaskListener::class),  // Enable sync task
