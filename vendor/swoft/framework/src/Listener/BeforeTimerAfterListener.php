@@ -1,0 +1,53 @@
+<?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
+
+namespace Swoft\Listener;
+
+use Swoft\Context\Context;
+use Swoft\Context\TimerAfterContext;
+use Swoft\Event\Annotation\Mapping\Listener;
+use Swoft\Event\EventHandlerInterface;
+use Swoft\Event\EventInterface;
+use Swoft\Log\Helper\Log;
+use Swoft\SwoftEvent;
+
+/**
+ * Class BeforeTimerAfterListener
+ *
+ * @since 2.0
+ *
+ * @Listener(event=SwoftEvent::TIMER_AFTER_BEFORE)
+ */
+class BeforeTimerAfterListener implements EventHandlerInterface
+{
+    /**
+     * Event name
+     */
+    public const EVENT_NAME = 'timerAfter';
+
+    /**
+     * @param EventInterface $event
+     */
+    public function handle(EventInterface $event): void
+    {
+        $context = TimerAfterContext::new(1, []);
+
+        if (Log::getLogger()->isEnable()) {
+            $data = [
+                'event'       => self::EVENT_NAME,
+                'uri'         => (string)1,
+                'requestTime' => microtime(true),
+            ];
+            $context->setMulti($data);
+        }
+
+        Context::set($context);
+    }
+}

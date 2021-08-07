@@ -1,0 +1,41 @@
+<?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
+namespace SwoftTest\Http\Message\Unit;
+
+use PHPUnit\Framework\TestCase;
+use Swoft\Http\Message\Request;
+
+/**
+ * Class RequestTest
+ *
+ * @package SwoftTest\Http\Message\Unit
+ */
+class RequestTest extends TestCase
+{
+    /**
+     */
+    public function testBasic(): void
+    {
+        $sr = new \Swoole\Http\Request();
+        $sr->fd = 1;
+        $sr->server['request_uri'] = '/home/index';
+
+        $r = Request::new($sr);
+
+        $this->assertSame(1, $r->getFd());
+        $this->assertSame('1.1', $r->getProtocolVersion());
+        $this->assertSame('/home/index', $r->getUriPath());
+        $this->assertSame('/home/index', $r->getUri()->getPath());
+
+        $r->setUriPath('/about');
+        $this->assertSame('/about', $r->getUriPath());
+        $this->assertSame('/about', $r->getUri()->getPath());
+    }
+}
